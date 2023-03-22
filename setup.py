@@ -17,7 +17,7 @@ def package_data(pkg, root):
 
 setup(
     name="pdf-xblock",
-    version="0.5",
+    version="1.0.5",
     description="pdf XBlock",  # TODO: write a better description.
     packages=[
         "pdf",
