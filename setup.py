@@ -1,6 +1,7 @@
 """Setup for pdf XBlock."""
 
 import os
+
 from setuptools import setup
 
 
@@ -15,19 +16,25 @@ def package_data(pkg, root):
 
 
 setup(
-    name='pdf-xblock',
-    version='0.1',
-    description='pdf XBlock',   # TODO: write a better description.
+    name="pdf-xblock",
+    version="0.1",
+    description="pdf XBlock",  # TODO: write a better description.
     packages=[
-        'pdf',
+        "pdf",
     ],
     install_requires=[
-        'XBlock',
+        "XBlock",
     ],
     entry_points={
-        'xblock.v1': [
-            'pdf = pdf:pdfXBlock',
-        ]
+        "lms.djangoapp": [
+            "pdf = pdf.apps:IBLpdfXBlock",
+        ],
+        "cms.djangoapp": [
+            "pdf = pdf.apps:IBLpdfXBlock",
+        ],
+        "xblock.v1": [
+            "pdf = pdf:pdfXBlock",
+        ],
     },
     package_data=package_data("pdf", "static"),
 )
