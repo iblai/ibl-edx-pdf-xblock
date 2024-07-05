@@ -1,29 +1,38 @@
+// Import PDF.js functions
+import { getDocument } from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs';
+
 document.addEventListener('DOMContentLoaded', function() {
   // Assuming "{href}" is replaced with the actual URL before this script runs
-  var pdfURL = document.querySelector('.pdf_block iframe').getAttribute('src');
+  const pdfURL = document.querySelector('.pdf_block iframe').getAttribute('src');
   loadPDF(pdfURL);
 });
 
-function loadPDF(href) {
+async function loadPDF(href) {
     console.log("Requesting PDF from URL:", href); // Log the requested URL
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", href, true);
-    xmlHttp.responseType = 'blob'; // Expect a Blob response
 
-    xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState === 4) {
-            console.log("Request state: 4, Status:", xmlHttp.status); // Log the status upon completion
-            if (xmlHttp.status === 200) {
-                var blob = new Blob([xmlHttp.response], { type: 'application/pdf' });
-                var url = URL.createObjectURL(blob);
-                console.log("Blob URL created:", url); // Log the Blob URL
-                var iframe = document.getElementById('unit-iframe');
-                iframe.src = url; // Set the iframe src to the Object URL
-                console.log("Iframe src set to:", iframe.src); // Log the iframe src attribute
-            } else {
-                console.error("Failed to load PDF from:", href); // Log error on failure
-            }
-        }
-    };
-    xmlHttp.send();
+    try {
+        const pdfDoc = await getDocument(href).promise;
+        console.log("PDF loaded, number of pages:", pdfDoc.numPages);
+
+        // Example: Render the first page of the PDF
+        const page = await pdfDoc.getPage(1);
+        const viewport = page.getViewport({ scale: 1.0 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+        };
+        await page.render(renderContext).promise;
+
+        // Replace the iframe with the canvas or append the canvas to the desired element
+        const iframe = document.getElementById('unit-iframe');
+        iframe.replaceWith(canvas); // This replaces the iframe with the canvas
+        console.log("PDF rendered to canvas.");
+    } catch (error) {
+        console.error("Failed to load PDF from:", href, error);
+    }
 }
