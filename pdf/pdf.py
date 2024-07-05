@@ -2,10 +2,11 @@
 
 import pkg_resources
 
-from xblock.core import XBlock
-from xblock.fields import Scope, Integer, String
 #from xblock.fragment import Fragment
 from web_fragments.fragment import Fragment
+from xblock.core import XBlock
+from xblock.fields import Integer, Scope, String
+
 
 class pdfXBlock(XBlock):
     """
@@ -45,7 +46,8 @@ class pdfXBlock(XBlock):
         The primary view of the pdfXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/pdf.html").format(self=self)  # Ensure href is included in the format
+        # Ensure href is included in the format by explicitly passing it as a named argument
+        html = self.resource_string("static/html/pdf.html").format(href=self.href)
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
         frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
