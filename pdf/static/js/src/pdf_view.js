@@ -1,7 +1,6 @@
 function loadPDF(href) {
     var xmlHttp = new XMLHttpRequest();
-    var url = href; // Use the href passed from the XBlock
-    var parameters = "first=barack&last=obama"; // Example parameters, adjust as needed
+    var url = href;
     xmlHttp.open("POST", url, true);
     xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlHttp.onreadystatechange = function() {
@@ -10,5 +9,5 @@ function loadPDF(href) {
             iframe.src = xmlHttp.responseText;
         }
     }
-    xmlHttp.send(parameters);
+    xmlHttp.send();
 }
