@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Assuming "{href}" is replaced with the actual URL before this script runs
+  var pdfURL = document.querySelector('.pdf_block iframe').getAttribute('src');
+  loadPDF(pdfURL);
+});
+
 function loadPDF(href) {
     console.log("Requesting PDF from URL:", href); // Log the requested URL
     var xmlHttp = new XMLHttpRequest();
