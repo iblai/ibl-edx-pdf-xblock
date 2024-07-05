@@ -46,8 +46,9 @@ class pdfXBlock(XBlock):
         The primary view of the pdfXBlock, shown to students
         when viewing courses.
         """
-        # Ensure href is included in the format by explicitly passing it as a named argument
-        html = self.resource_string("static/html/pdf.html").format(href=self.href)
+        html = self.resource_string("static/html/pdf.html")
+        # Replace custom placeholder with actual href value
+        html = html.replace("{href}", self.href)
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
         frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
