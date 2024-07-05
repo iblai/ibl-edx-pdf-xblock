@@ -1,13 +1,15 @@
 function loadPDF(href) {
     var xmlHttp = new XMLHttpRequest();
-    var url = href; // The server endpoint that returns the PDF link
-    xmlHttp.open("GET", url, true); // Use GET if you're retrieving a link; adjust accordingly
+    xmlHttp.open("GET", href, true);
+    xmlHttp.responseType = 'blob'; // Expect a Blob response
+
     xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            var blob = new Blob([xmlHttp.response], { type: 'application/pdf' });
+            var url = URL.createObjectURL(blob);
             var iframe = document.getElementById('unit-iframe');
-            // Assuming the server response is a direct link to the PDF
-            iframe.src = xmlHttp.responseText; // Set the iframe src to the response
+            iframe.src = url; // Set the iframe src to the Object URL
         }
     };
-    xmlHttp.send(); // No need to send data for a simple GET request
+    xmlHttp.send();
 }
