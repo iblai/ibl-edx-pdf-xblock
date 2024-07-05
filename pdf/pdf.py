@@ -72,7 +72,7 @@ class pdfXBlock(XBlock):
         The primary view of the PDF XBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/pdf_edit.html").decode("utf-8")
+        html = self.resource_string("static/html/pdf_edit.html")  # No need to decode if resource_string returns a string
         frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.initialize_js('pdfXBlock')
