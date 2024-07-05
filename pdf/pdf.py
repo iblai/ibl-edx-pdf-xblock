@@ -4,7 +4,8 @@ import pkg_resources
 
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String
-from xblock.fragment import Fragment
+#from xblock.fragment import Fragment
+from web_fragments.fragment import Fragment
 
 class pdfXBlock(XBlock):
     """
@@ -29,24 +30,47 @@ class pdfXBlock(XBlock):
         return data.decode("utf8")
 
 
+    #def student_view(self, context=None):
+        """
+        The primary view of the pdfXBlock, shown to students
+        when viewing courses.
+        """
+    #    html = self.resource_string("static/html/pdf.html")
+    #    frag = Fragment(html.format(self=self))
+    #    frag.add_css(self.resource_string("static/css/pdf.css"))
+    #    return frag
+
     def student_view(self, context=None):
         """
         The primary view of the pdfXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/pdf.html")
-        frag = Fragment(html.format(self=self))
+        html = self.resource_string("static/html/pdf.html").format(self=self)  # Ensure href is included in the format
+        frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
+        frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
+        frag.initialize_js('pdfXBlock', {"href": self.href})  # Pass href to JavaScript
         return frag
 
 
-    def studio_view(self, context=None):
+    #def studio_view(self, context=None):
         """
         The primary view of the paellaXBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/pdf_edit.html")
-        frag = Fragment(html.format(self=self))
+    #    html = self.resource_string("static/html/pdf_edit.html")
+    #    frag = Fragment(html.format(self=self))
+    #    frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
+    #    frag.initialize_js('pdfXBlock')
+    #    return frag
+
+    def studio_view(self, context=None):
+        """
+        The primary view of the PDF XBlock, shown to students
+        when viewing courses.
+        """
+        html = self.resource_string("static/html/pdf_edit.html").decode("utf-8")
+        frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.initialize_js('pdfXBlock')
         return frag
