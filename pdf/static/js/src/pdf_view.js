@@ -1,5 +1,4 @@
 function loadPDF(href) {
-    console.log("loadPDF called with href:", href); // Log the initial href value
 
     var url = href; // The server endpoint that returns the PDF link
 
@@ -10,7 +9,6 @@ function loadPDF(href) {
 
     // Asynchronously downloads PDF.
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc) {
-        console.log(`Document loaded, number of pages: ${pdfDoc.numPages}`);
 
         // Get container for PDF pages
         var container = document.getElementById('pdf-container');
@@ -53,7 +51,6 @@ function loadPDF(href) {
                 };
                 var renderTask = page.render(renderContext);
                 renderTask.promise.then(function() {
-                    console.log('Page ' + pageNum + ' rendered');
                     renderedPagesCount++; // Increment the counter after each page is rendered
 
                     // Check if all pages have been rendered

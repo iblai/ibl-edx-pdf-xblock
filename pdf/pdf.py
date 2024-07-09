@@ -1,11 +1,9 @@
 """TO-DO: Write a description of what this XBlock is."""
 
 import pkg_resources
-
-#from xblock.fragment import Fragment
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
-from xblock.fields import Integer, Scope, String
+from xblock.fields import Scope, String
 
 
 class pdfXBlock(XBlock):
@@ -25,11 +23,6 @@ class pdfXBlock(XBlock):
                           scope=Scope.settings,
                           help="Name of the component in the edxplatform")
 
-    # def resource_string(self, path):
-    #     """Handy helper for getting resources from our kit."""
-    #     data = pkg_resources.resource_string(__name__, path)
-    #     return data.decode("utf8")
-
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
@@ -44,12 +37,10 @@ class pdfXBlock(XBlock):
         when viewing courses.
         """
         html = self.resource_string("static/html/pdf.html")
-        # Replace custom placeholder with actual href value
         html = html.replace("{href}", self.href)
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
         frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
-        # frag.initialize_js('pdfXBlock', {"href": self.href})
         return frag
 
 

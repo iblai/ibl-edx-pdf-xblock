@@ -16,15 +16,10 @@ function pdfXBlock(runtime, element) {
             'display_name': $(edit_display_name).context.value,
             'href': $(edit_href).context.value
         };
-
-        // Logging data to see what we are sending
-        console.log("Attempting to save with data:", data);
-
         $('.xblock-editor-error-message', element).html();
         $('.xblock-editor-error-message', element).css('display', 'none');
         var handlerUrl = runtime.handlerUrl(element, 'save_pdf');
         $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
-            console.log("Response from server:", response); // Log the response from the server
 
             if (response.result === 'success') {
                 window.location.reload(false);

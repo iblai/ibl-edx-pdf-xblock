@@ -12,24 +12,17 @@
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
-<!-- <script type="text/javascript" src="/static/js/src/pdf_view.js"></script> -->
 
 <script>
-console.log("Checking if the current URL is studio URL...");
-console.log("Current URL:", window.location.href);
 
 function hideElement(selector) {
   var element = document.querySelector(selector);
   if (element) {
     element.style.display = 'none';
-    console.log(selector + " hidden.");
   }
 }
 
 function initializePDFLoading(href) {
-  console.log("Loaded DOMContent. Attempting to load PDF...");
-  console.log("PDF href value:", href);
-
   if (!href) {
     console.error("Error: href is undefined or null. Check the path to your PDF.");
   } else {
