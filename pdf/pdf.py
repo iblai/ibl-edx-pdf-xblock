@@ -49,7 +49,7 @@ class pdfXBlock(XBlock):
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
         frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
-        # frag.initialize_js('pdfXBlock', {"href": self.href})  # Pass href to JavaScript
+        # frag.initialize_js('pdfXBlock', {"href": self.href})
         return frag
 
 
