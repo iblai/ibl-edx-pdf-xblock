@@ -9,6 +9,13 @@
 <div class="pdf_block">
   <div id="pdf-loader">Loading document...</div>
   <div id="pdf-container"></div>
+  <!-- PDF Download Button -->
+
+  <ul>
+    <li class="pdf-download-button">
+      <a id="pdf_download" href="" download="" class="pdf-download-button">Download PDF File</a>
+    </li>
+  </ul>
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
@@ -48,7 +55,17 @@ if (window.location.hostname.startsWith('studio.')) {
       hideElement('.pdf_block_iframe');
       initializePDFLoading(href);
       adjustCanvasSize();
+      window.addEventListener('resize', adjustContainerMaxHeight);
       window.addEventListener('resize', adjustCanvasSize);
+      setupPdfDownloadButton(href)
+
+      const downloadButton = document.getElementById('pdf_download');
+      downloadButton.addEventListener('click', function(event) {
+          // Prevent the default action to ensure we set everything before downloading
+          event.preventDefault();
+          setupPdfDownloadButton(href);
+          downloadButton.click();
+      });
     });
   } else {
     hideElement('.pdf_block_iframe');

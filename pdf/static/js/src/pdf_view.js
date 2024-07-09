@@ -107,3 +107,26 @@ function adjustCanvasSize() {
         canvas.style.height = `${newHeight}px`;
     });
 }
+
+function adjustContainerMaxHeight() {
+    const container = document.getElementById('your-container-id'); // Make sure to replace 'your-container-id' with the actual ID of your container
+    if (!container) return;
+
+    // Example: Set maxHeight to be 80% of the viewport height
+    const viewportHeight = window.innerHeight;
+    const maxHeight = viewportHeight * 0.8; // Adjust the 0.8 value to change the percentage of the viewport height used
+    container.style.maxHeight = `${maxHeight}px`;
+}
+
+function setupPdfDownloadButton(url) {
+    const downloadButton = document.getElementById('pdf_download');
+    if (!downloadButton) return;
+
+    // Extract the filename from the URL
+    const urlParts = url.split('/');
+    const fileName = urlParts[urlParts.length - 1] || 'download.pdf';
+
+    // Set the href and download attributes of the button
+    downloadButton.href = url;
+    downloadButton.download = fileName;
+}
