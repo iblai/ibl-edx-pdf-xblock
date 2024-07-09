@@ -14,27 +14,18 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
 <!-- <script type="text/javascript" src="/static/js/src/pdf_view.js"></script> -->
 
-<!-- <script>
-console.log("Loaded DOMContent. Attempting to load PDF test...");
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  var href = "{href}"; // Ensure this is the correct path to your PDF
-  console.log("Loaded DOMContent. Attempting to load PDF...");
-  console.log("PDF href value:", href);
-
-  if (!href) {
-    console.error("Error: href is undefined or null. Check the path to your PDF.");
-  } else {
-    loadPDF(href);
-  }
-});
-</script> -->
-
 <script>
-  console.log("Loaded DOMContent. Attempting to load PDF test...");
+console.log("Checking if the current URL is studio URL...");
 
-  function loadPDFContent() {
+
+if (window.location.hostname.startsWith('studio.')) {
+  // Hide pdf_block if the URL starts with studio.
+  document.addEventListener('DOMContentLoaded', function() {
+    var pdfBlock = document.querySelector('.pdf_block');
+    if (pdfBlock) {
+      pdfBlock.style.display = 'none';
+    }
+
     var href = "{href}"; // Ensure this is the correct path to your PDF
     console.log("Loaded DOMContent. Attempting to load PDF...");
     console.log("PDF href value:", href);
@@ -44,13 +35,24 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       loadPDF(href);
     }
-  }
+  });
+} else {
+  // Hide pdf_block_iframe if the URL does not start with studio.
+  document.addEventListener('DOMContentLoaded', function() {
+    var pdfBlockIframe = document.querySelector('.pdf_block_iframe');
+    if (pdfBlockIframe) {
+      pdfBlockIframe.style.display = 'none';
+    }
 
-  if (document.readyState === "loading") {
-    // If the document is still loading, add the event listener
-    document.addEventListener('DOMContentLoaded', loadPDFContent);
-  } else {
-    // If the document is already loaded, call the function directly
-    loadPDFContent();
-  }
-  </script>
+    var href = "{href}"; // Ensure this is the correct path to your PDF
+    console.log("Loaded DOMContent. Attempting to load PDF...");
+    console.log("PDF href value:", href);
+
+    if (!href) {
+      console.error("Error: href is undefined or null. Check the path to your PDF.");
+    } else {
+      loadPDF(href);
+    }
+  });
+}
+</script>
