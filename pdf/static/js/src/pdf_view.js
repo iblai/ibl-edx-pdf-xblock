@@ -7,9 +7,12 @@ function loadPDF(href) {
 
         // Get container for PDF pages
         var container = document.getElementById('pdf-container');
+        var loader = document.getElementById('pdf-loader'); // Get the loader element
 
         // Clear existing content
         container.innerHTML = '';
+
+        let renderedPagesCount = 0; // Initialize rendered pages counter
 
         // Loop through each page
         for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
@@ -34,6 +37,12 @@ function loadPDF(href) {
                 var renderTask = page.render(renderContext);
                 renderTask.promise.then(function() {
                     console.log('Page ' + pageNum + ' rendered');
+                    renderedPagesCount++; // Increment the counter after each page is rendered
+
+                    // Check if all pages have been rendered
+                    if (renderedPagesCount === pdfDoc.numPages) {
+                        loader.style.display = 'none'; // Hide the loader
+                    }
                 });
             });
         }
