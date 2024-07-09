@@ -1,5 +1,12 @@
 function loadPDF(href) {
+    console.log("loadPDF called with href:", href); // Log the initial href value
+
     var url = href; // The server endpoint that returns the PDF link
+
+    if (!url) {
+        console.error("Error: URL is undefined or null.");
+        return; // Exit the function if url is not valid
+    }
 
     // Asynchronously downloads PDF.
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc) {
@@ -8,6 +15,16 @@ function loadPDF(href) {
         // Get container for PDF pages
         var container = document.getElementById('pdf-container');
         var loader = document.getElementById('pdf-loader'); // Get the loader element
+
+        if (!container) {
+            console.error("Error: PDF container element not found.");
+            return; // Exit the function if container is not found
+        }
+
+        if (!loader) {
+            console.error("Error: PDF loader element not found.");
+            // Not returning here as loader is not critical for PDF rendering
+        }
 
         // Clear existing content
         container.innerHTML = '';
@@ -41,12 +58,12 @@ function loadPDF(href) {
 
                     // Check if all pages have been rendered
                     if (renderedPagesCount === pdfDoc.numPages) {
-                        loader.style.display = 'none'; // Hide the loader
+                        if (loader) loader.style.display = 'none'; // Hide the loader if it exists
                     }
                 });
             });
         }
     }).catch(function(error) {
-        console.error('Error: ' + error.message);
+        console.error('Error loading PDF: ' + error.message);
     });
 }

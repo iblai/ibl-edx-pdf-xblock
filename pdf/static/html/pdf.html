@@ -4,10 +4,17 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
-<script src="pdf_view.js"></script>
+<!-- <script src="pdf_view.js"></script> -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   var href = "{href}"; // Ensure this is the correct path to your PDF
-  loadPDF(href);
+  console.log("Loaded DOMContent. Attempting to load PDF...");
+  console.log("PDF href value:", href);
+
+  if (!href) {
+    console.error("Error: href is undefined or null. Check the path to your PDF.");
+  } else {
+    loadPDF(href);
+  }
 });
 </script>
