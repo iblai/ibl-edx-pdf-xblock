@@ -62,45 +62,28 @@ class pdfXBlock(XBlock):
         frag.initialize_js('pdfXBlock', {"href": self.href})  # Pass href to JavaScript
         return frag
 
-    # def studio_view(self, context=None):
-    #     """
-    #     The primary view of the pdfXBlock, shown to students
-    #     when viewing courses.
-    #     """
-    #     html = self.resource_string("static/html/pdf.html")
-    #     # Replace custom placeholder with actual href value
-    #     html = html.replace("{href}", self.href)
-    #     frag = Fragment(html)
-    #     frag.add_css(self.resource_string("static/css/pdf.css"))
-    #     html = self.resource_string("static/html/pdf_edit.html")
-    #     # frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
-    #     frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
-    #     frag.initialize_js('pdfXBlock', {"href": self.href})  # Pass href to JavaScript
-    #     return frag
 
-
-    # def studio_view(self, context=None):
-    #     """
-    #     The primary view of the paellaXBlock, shown to students
-    #     when viewing courses.
-    #     """
-    #     html = html.replace("{href}", self.href)
-    #     html = self.resource_string("static/html/pdf_edit.html")
-    #     frag = Fragment(html.format(self=self))
-    #     frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
-    #     frag.initialize_js('pdfXBlock', {"href": self.href})
-    #     return frag
-
-    def studio_view(self, context=None):
+     def studio_view(self, context=None):
         """
-        The primary view of the PDF XBlock, shown to students
+        The primary view of the paellaXBlock, shown to students
         when viewing courses.
         """
         html = self.resource_string("static/html/pdf_edit.html")
-        frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
+        frag = Fragment(html.format(self=self))
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.initialize_js('pdfXBlock')
         return frag
+
+    # def studio_view(self, context=None):
+    #     """
+    #     The primary view of the PDF XBlock, shown to students
+    #     when viewing courses.
+    #     """
+    #     html = self.resource_string("static/html/pdf_edit.html")
+    #     frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
+    #     frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
+    #     frag.initialize_js('pdfXBlock')
+    #     return frag
 
     @XBlock.json_handler
     def save_pdf(self, data, suffix=''):
