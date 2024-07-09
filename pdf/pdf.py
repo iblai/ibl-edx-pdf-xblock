@@ -63,7 +63,7 @@ class pdfXBlock(XBlock):
         return frag
 
 
-     def studio_view(self, context=None):
+    def studio_view(self, context=None):
         """
         The primary view of the paellaXBlock, shown to students
         when viewing courses.
