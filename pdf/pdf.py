@@ -80,7 +80,7 @@ class pdfXBlock(XBlock):
         when viewing courses.
         """
         html = self.resource_string("static/html/pdf_edit.html")
-        frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
+        frag = Fragment(html.format(self=self))  # Pass href as a named argument
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.initialize_js('pdfXBlock')
         return frag
