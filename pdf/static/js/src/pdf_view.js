@@ -81,3 +81,29 @@ function loadPDF(href) {
         console.error('Error loading PDF: ' + error.message);
     });
 }
+
+function adjustCanvasSize() {
+    const container = document.getElementById('pdf-container');
+    if (!container) return;
+
+    const canvases = container.getElementsByTagName('canvas');
+    if (canvases.length === 0) return;
+
+    const containerWidth = container.clientWidth;
+    const containerHeight = Math.min(container.clientHeight, 600); // Use 600px or the current height
+
+    Array.from(canvases).forEach(canvas => {
+        const aspectRatio = canvas.width / canvas.height;
+
+        let newWidth = containerWidth;
+        let newHeight = newWidth / aspectRatio;
+
+        if (newHeight > containerHeight) {
+            newHeight = containerHeight;
+            newWidth = newHeight * aspectRatio;
+        }
+
+        canvas.style.width = `${newWidth}px`;
+        canvas.style.height = `${newHeight}px`;
+    });
+}

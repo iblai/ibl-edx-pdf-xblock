@@ -47,6 +47,8 @@ if (window.location.hostname.startsWith('studio.')) {
     document.addEventListener('DOMContentLoaded', function() {
       hideElement('.pdf_block_iframe');
       initializePDFLoading(href);
+      adjustCanvasSize();
+      window.addEventListener('resize', adjustCanvasSize);
     });
   } else {
     hideElement('.pdf_block_iframe');
