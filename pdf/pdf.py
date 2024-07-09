@@ -72,7 +72,7 @@ class pdfXBlock(XBlock):
         frag = Fragment(html.format(self=self))
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
-        frag.initialize_js('pdfXBlock')
+        frag.initialize_js('pdfXBlock', {"href": self.href})
         return frag
 
     # def studio_view(self, context=None):
