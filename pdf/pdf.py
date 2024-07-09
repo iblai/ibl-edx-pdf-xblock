@@ -25,10 +25,17 @@ class pdfXBlock(XBlock):
                           scope=Scope.settings,
                           help="Name of the component in the edxplatform")
 
+    # def resource_string(self, path):
+    #     """Handy helper for getting resources from our kit."""
+    #     data = pkg_resources.resource_string(__name__, path)
+    #     return data.decode("utf8")
+
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
-        return data.decode("utf8")
+        if isinstance(data, bytes):
+            return data.decode("utf8")
+        return data
 
 
     #def student_view(self, context=None):
@@ -72,7 +79,7 @@ class pdfXBlock(XBlock):
         The primary view of the PDF XBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/pdf_edit.html").decode("utf-8")
+        html = self.resource_string("static/html/pdf_edit.html")
         frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.initialize_js('pdfXBlock')
