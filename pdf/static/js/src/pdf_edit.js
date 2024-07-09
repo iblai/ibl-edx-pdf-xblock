@@ -13,8 +13,8 @@ function pdfXBlock(runtime, element) {
 
     $(element).find('.save-button').bind('click', function() {
         var data = {
-            'display_name': $('#edit_display_name', element).val(),
-            'href': $('#edit_href', element).val()
+            'display_name': $(edit_display_name).context.value,
+            'href':$(edit_href).context.value
         };
 
         $('.xblock-editor-error-message', element).html();
