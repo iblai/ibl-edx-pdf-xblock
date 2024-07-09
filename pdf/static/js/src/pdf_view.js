@@ -24,9 +24,17 @@ function loadPDF(href) {
 
         // Mimic iframe style for the container
         container.style.border = "1px solid #000";
-        container.style.overflow = "auto";
+        container.style.overflowY = "scroll"; // Ensure only vertical scrolling
         container.style.width = "100%";
         container.style.maxHeight = "600px"; // Adjust as needed
+        container.style.position = "relative"; // For positioning the gradient/shadow
+
+        // Custom scrollbar for WebKit browsers
+        container.style.scrollbarWidth = "thin";
+        container.style.scrollbarColor = "#888 #ffffff";
+
+        // Gradient/shadow at the top and bottom as a visual cue for scrollability
+        container.style.boxShadow = "inset 0 8px 8px -8px rgba(0,0,0,0.5), inset 0 -8px 8px -8px rgba(0,0,0,0.5)";
 
         // Clear existing content
         container.innerHTML = '';
