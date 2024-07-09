@@ -38,16 +38,6 @@ class pdfXBlock(XBlock):
         return data
 
 
-    #def student_view(self, context=None):
-        """
-        The primary view of the pdfXBlock, shown to students
-        when viewing courses.
-        """
-    #    html = self.resource_string("static/html/pdf.html")
-    #    frag = Fragment(html.format(self=self))
-    #    frag.add_css(self.resource_string("static/css/pdf.css"))
-    #    return frag
-
     def student_view(self, context=None):
         """
         The primary view of the pdfXBlock, shown to students
@@ -59,7 +49,7 @@ class pdfXBlock(XBlock):
         frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
         frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
-        frag.initialize_js('pdfXBlock', {"href": self.href})  # Pass href to JavaScript
+        # frag.initialize_js('pdfXBlock', {"href": self.href})  # Pass href to JavaScript
         return frag
 
 
@@ -73,17 +63,6 @@ class pdfXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
         frag.initialize_js('pdfXBlock')
         return frag
-
-    # def studio_view(self, context=None):
-    #     """
-    #     The primary view of the PDF XBlock, shown to students
-    #     when viewing courses.
-    #     """
-    #     html = self.resource_string("static/html/pdf_edit.html")
-    #     frag = Fragment(html.format(href=self.href))  # Pass href as a named argument
-    #     frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
-    #     frag.initialize_js('pdfXBlock')
-    #     return frag
 
     @XBlock.json_handler
     def save_pdf(self, data, suffix=''):
