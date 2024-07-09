@@ -60,16 +60,36 @@ if (window.location.hostname.startsWith('studio.')) {
       setupPdfDownloadButton(href)
 
       const downloadButton = document.getElementById('pdf_download');
-      downloadButton.addEventListener('click', function(event) {
+      // downloadButton.addEventListener('click', function(event) {
           // Prevent the default action to ensure we set everything before downloading
-          event.preventDefault();
-          setupPdfDownloadButton(href);
-          downloadButton.click();
-      });
+          // event.preventDefault();
+          //setupPdfDownloadButton(href);
+          // downloadButton.click();
+      // });
     });
   } else {
     hideElement('.pdf_block_iframe');
     initializePDFLoading(href);
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const downloadButton = document.getElementById('pdf_download');
+    downloadButton.addEventListener('click', function(event) {
+        // Prevent the default action
+        event.preventDefault();
+
+        // Define the PDF URL and filename
+        const pdfUrl = href; // Replace with your actual PDF URL
+        const fileName = pdfUrl.split('/').pop(); // Extracts the filename from the URL
+
+        // Set the href and download attributes dynamically
+        downloadButton.href = pdfUrl;
+        downloadButton.download = fileName;
+
+        // Manually trigger the download
+        downloadButton.click();
+    });
+});
+
 }
 </script>
