@@ -16,43 +16,48 @@
 
 <script>
 console.log("Checking if the current URL is studio URL...");
+console.log("Current URL:", window.location.href);
 
+function hideElement(selector) {
+  var element = document.querySelector(selector);
+  if (element) {
+    element.style.display = 'none';
+    console.log(selector + " hidden.");
+  }
+}
+
+function initializePDFLoading(href) {
+  console.log("Loaded DOMContent. Attempting to load PDF...");
+  console.log("PDF href value:", href);
+
+  if (!href) {
+    console.error("Error: href is undefined or null. Check the path to your PDF.");
+  } else {
+    loadPDF(href);
+  }
+}
 
 if (window.location.hostname.startsWith('studio.')) {
-  // Hide pdf_block if the URL starts with studio.
-  document.addEventListener('DOMContentLoaded', function() {
-    var pdfBlock = document.querySelector('.pdf_block');
-    if (pdfBlock) {
-      pdfBlock.style.display = 'none';
-    }
-
-    var href = "{href}"; // Ensure this is the correct path to your PDF
-    console.log("Loaded DOMContent. Attempting to load PDF...");
-    console.log("PDF href value:", href);
-
-    if (!href) {
-      console.error("Error: href is undefined or null. Check the path to your PDF.");
-    } else {
-      loadPDF(href);
-    }
-  });
+  // If the URL starts with studio, hide pdf_block immediately if DOM is ready, or wait for it.
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block');
+    });
+  } else {
+    hideElement('.pdf_block');
+  }
 } else {
-  // Hide pdf_block_iframe if the URL does not start with studio.
-  document.addEventListener('DOMContentLoaded', function() {
-    var pdfBlockIframe = document.querySelector('.pdf_block_iframe');
-    if (pdfBlockIframe) {
-      pdfBlockIframe.style.display = 'none';
-    }
+  // If the URL does not start with studio, proceed with hiding pdf_block_iframe and loading the PDF.
+  var href = "{href}"; // Ensure this is the correct path to your PDF
 
-    var href = "{href}"; // Ensure this is the correct path to your PDF
-    console.log("Loaded DOMContent. Attempting to load PDF...");
-    console.log("PDF href value:", href);
-
-    if (!href) {
-      console.error("Error: href is undefined or null. Check the path to your PDF.");
-    } else {
-      loadPDF(href);
-    }
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block_iframe');
+      initializePDFLoading(href);
+    });
+  } else {
+    hideElement('.pdf_block_iframe');
+    initializePDFLoading(href);
+  }
 }
 </script>
