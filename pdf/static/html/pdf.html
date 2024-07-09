@@ -1,13 +1,13 @@
 <div class="pdf_block">
-  <canvas id="pdf-canvas" width="600" height="800"></canvas>
   <div id="pdf-loader">Loading document...</div>
+  <div id="pdf-container"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
 <script src="pdf_view.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var href = "{href}"; // Ensure this is the correct path to your PDF
-    loadPDF(href);
-  });
+document.addEventListener('DOMContentLoaded', function() {
+  var href = "{href}"; // Ensure this is the correct path to your PDF
+  loadPDF(href);
+});
 </script>

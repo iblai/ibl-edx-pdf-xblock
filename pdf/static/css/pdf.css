@@ -7,3 +7,24 @@
 .pdf_block p {
     cursor: pointer;
 }
+
+#pdf-container {
+    width: 100%;
+    max-width: 600px; /* Adjust based on your needs */
+    margin: auto;
+    overflow-y: auto; /* Allows vertical scrolling if necessary */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    border: 1px solid #ccc; /* Optional: adds a border around the container */
+}
+canvas {
+    width: 100% !important;
+    height: auto !important;
+    border: 1px solid #000; /* Adds a border around each canvas/page */
+    box-sizing: border-box; /* Includes border in the element's total width and height */
+    page-break-after: always; /* Ensures each canvas is printed on a new page if printed */
+    margin-bottom: 10px; /* Adds space between pages */
+}
+#pdf-loader {
+    text-align: center;
+    padding: 20px;
+}
