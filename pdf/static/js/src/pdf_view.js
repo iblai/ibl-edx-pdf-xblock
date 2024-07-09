@@ -1,5 +1,4 @@
 function loadPDF(href) {
-
     var url = href; // The server endpoint that returns the PDF link
 
     if (!url) {
@@ -9,7 +8,6 @@ function loadPDF(href) {
 
     // Asynchronously downloads PDF.
     pdfjsLib.getDocument(url).promise.then(function(pdfDoc) {
-
         // Get container for PDF pages
         var container = document.getElementById('pdf-container');
         var loader = document.getElementById('pdf-loader'); // Get the loader element
@@ -23,6 +21,12 @@ function loadPDF(href) {
             console.error("Error: PDF loader element not found.");
             // Not returning here as loader is not critical for PDF rendering
         }
+
+        // Mimic iframe style for the container
+        container.style.border = "1px solid #000";
+        container.style.overflow = "auto";
+        container.style.width = "100%";
+        container.style.maxHeight = "600px"; // Adjust as needed
 
         // Clear existing content
         container.innerHTML = '';
@@ -40,6 +44,11 @@ function loadPDF(href) {
                 var viewport = page.getViewport({scale: 1.5});
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
+
+                // Style the canvas to mimic a page inside an iframe
+                canvas.style.display = "block";
+                canvas.style.margin = "0 auto";
+                canvas.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)"; // Optional: adds shadow for depth
 
                 // Append canvas to container
                 container.appendChild(canvas);
