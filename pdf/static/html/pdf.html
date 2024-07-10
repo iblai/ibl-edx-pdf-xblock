@@ -53,6 +53,7 @@ if (window.location.hostname.startsWith('studio.')) {
   }
 } else if (navigator.userAgent.toLowerCase().includes('firefox') || navigator.userAgent.toLowerCase().includes('mozilla')) {
   console.log('Browser is Firefox/Mozilla.');
+  console.log(navigator.userAgent.toLowerCase());
   // Hide pdf_block for Firefox/Mozilla browsers.
   if (document.readyState === "loading") {
     console.log('Document is loading. Setting up DOMContentLoaded listener for Firefox/Mozilla.');
