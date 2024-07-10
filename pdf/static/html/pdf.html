@@ -51,8 +51,8 @@ if (window.location.hostname.startsWith('studio.')) {
     console.log('Document already loaded for studio. Hiding .pdf_block.');
     hideElement('.pdf_block');
   }
-} else if (navigator.userAgent.toLowerCase().includes('firefox') || navigator.userAgent.toLowerCase().includes('mozilla')) {
-  console.log('Browser is Firefox/Mozilla.');
+} else if ((navigator.userAgent.toLowerCase().includes('firefox') || navigator.userAgent.toLowerCase().includes('mozilla')) && !(navigator.userAgent.toLowerCase().includes('chrome') || navigator.userAgent.toLowerCase().includes('edge'))) {
+  console.log('Browser is Firefox/Mozilla, not Chrome or Edge.');
   console.log(navigator.userAgent.toLowerCase());
   // Hide pdf_block for Firefox/Mozilla browsers.
   if (document.readyState === "loading") {
