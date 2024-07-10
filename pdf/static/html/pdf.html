@@ -37,45 +37,71 @@ function initializePDFLoading(href) {
   }
 }
 
+
 if (window.location.hostname.startsWith('studio.')) {
   // Hide pdf_block immediately if DOM is ready, or wait for it.
-  document.addEventListener('DOMContentLoaded', hideElement.bind(null, '.pdf_block'), { once: true });
+  //document.addEventListener('DOMContentLoaded', hideElement.bind(null, '.pdf_block'), { once: true });
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block');
+    });
+  } else {
+    hideElement('.pdf_block');
+  }
 } else if (navigator.userAgent.toLowerCase().includes('firefox') || navigator.userAgent.toLowerCase().includes('mozilla')) {
   // Hide pdf_block for Firefox/Mozilla browsers.
-  document.addEventListener('DOMContentLoaded', hideElement.bind(null, '.pdf_block'), { once: true });
-} else {
-  // Proceed with hiding pdf_block_iframe and loading the PDF for other cases.
-  const href = "{href}"; // Ensure this is the correct path to your PDF
-
-  const onDOMContentLoaded = () => {
-    hideElement('.pdf_block_iframe');
-    initializePDFLoading(href);
-    adjustCanvasSize();
-    window.addEventListener('resize', adjustContainerMaxHeight);
-    window.addEventListener('resize', adjustCanvasSize);
-    setupPdfDownloadButton(href);
-
-    const downloadButton = document.getElementById('pdf_download');
-    downloadButton.addEventListener('click', (event) => {
-      event.preventDefault(); // Prevent the default action
-
-      // Define the PDF URL and filename
-      const pdfUrl = href; // Use the actual PDF URL
-      const fileName = pdfUrl.split('/').pop(); // Extracts the filename from the URL
-
-      // Set the href and download attributes dynamically
-      downloadButton.href = pdfUrl;
-      downloadButton.download = fileName;
-
-      // Manually trigger the download
-      downloadButton.click();
+  // document.addEventListener('DOMContentLoaded', hideElement.bind(null, '.pdf_block'), { once: true });
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block');
     });
-  };
+  } else {
+    hideElement('.pdf_block');
+  }
+} else {
+  // If the URL does not start with studio, proceed with hiding pdf_block_iframe and loading the PDF.
+  var href = "{href}"; // Ensure this is the correct path to your PDF
 
   if (document.readyState === "loading") {
-    document.addEventListener('DOMContentLoaded', onDOMContentLoaded, { once: true });
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block_iframe');
+      initializePDFLoading(href);
+      adjustCanvasSize();
+      window.addEventListener('resize', adjustContainerMaxHeight);
+      window.addEventListener('resize', adjustCanvasSize);
+      setupPdfDownloadButton(href)
+
+      const downloadButton = document.getElementById('pdf_download');
+      // downloadButton.addEventListener('click', function(event) {
+          // Prevent the default action to ensure we set everything before downloading
+          // event.preventDefault();
+          //setupPdfDownloadButton(href);
+          // downloadButton.click();
+      // });
+    });
   } else {
-    onDOMContentLoaded();
+    hideElement('.pdf_block_iframe');
+    initializePDFLoading(href);
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const downloadButton = document.getElementById('pdf_download');
+    downloadButton.addEventListener('click', function(event) {
+        // Prevent the default action
+        event.preventDefault();
+
+        // Define the PDF URL and filename
+        const pdfUrl = href; // Replace with your actual PDF URL
+        const fileName = pdfUrl.split('/').pop(); // Extracts the filename from the URL
+
+        // Set the href and download attributes dynamically
+        downloadButton.href = pdfUrl;
+        downloadButton.download = fileName;
+
+        // Manually trigger the download
+        downloadButton.click();
+    });
+});
+
 }
 </script>
