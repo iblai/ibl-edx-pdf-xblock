@@ -58,8 +58,15 @@ function loadPDF(href) {
             canvas.style.margin = "0 auto";
             canvas.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)"; // Optional: adds shadow for depth
 
-            // Append canvas to container
-            container.appendChild(canvas);
+            // Create an anchor tag to wrap the canvas
+            var link = document.createElement('a');
+            link.href = href; // Assuming 'href' is the variable containing the URL
+            link.target = '_blank'; // Open in a new tab
+            link.title = 'Open PDF viewer'; // Tooltip on hover
+            link.appendChild(canvas); // Add the canvas to the link
+
+            // Append the link (with the canvas inside) to the container
+            container.appendChild(link);
 
             // Render PDF page into canvas context
             var renderContext = {
