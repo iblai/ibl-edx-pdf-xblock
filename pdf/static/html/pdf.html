@@ -39,69 +39,76 @@ function initializePDFLoading(href) {
 
 
 if (window.location.hostname.startsWith('studio.')) {
+  console.log('Hostname starts with studio.');
   // Hide pdf_block immediately if DOM is ready, or wait for it.
-  //document.addEventListener('DOMContentLoaded', hideElement.bind(null, '.pdf_block'), { once: true });
   if (document.readyState === "loading") {
+    console.log('Document is loading. Setting up DOMContentLoaded listener for studio.');
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOMContentLoaded for studio. Hiding .pdf_block.');
       hideElement('.pdf_block');
     });
   } else {
+    console.log('Document already loaded for studio. Hiding .pdf_block.');
     hideElement('.pdf_block');
   }
 } else if (navigator.userAgent.toLowerCase().includes('firefox') || navigator.userAgent.toLowerCase().includes('mozilla')) {
+  console.log('Browser is Firefox/Mozilla.');
   // Hide pdf_block for Firefox/Mozilla browsers.
-  // document.addEventListener('DOMContentLoaded', hideElement.bind(null, '.pdf_block'), { once: true });
   if (document.readyState === "loading") {
+    console.log('Document is loading. Setting up DOMContentLoaded listener for Firefox/Mozilla.');
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOMContentLoaded for Firefox/Mozilla. Hiding .pdf_block.');
       hideElement('.pdf_block');
     });
   } else {
+    console.log('Document already loaded for Firefox/Mozilla. Hiding .pdf_block.');
     hideElement('.pdf_block');
   }
 } else {
-  // If the URL does not start with studio, proceed with hiding pdf_block_iframe and loading the PDF.
+  console.log('Neither studio hostname nor Firefox/Mozilla browser detected.');
   var href = "{href}"; // Ensure this is the correct path to your PDF
 
   if (document.readyState === "loading") {
+    console.log('Document is loading. Setting up DOMContentLoaded listener for other cases.');
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOMContentLoaded for other cases. Executing setup.');
       hideElement('.pdf_block_iframe');
       initializePDFLoading(href);
       adjustCanvasSize();
       window.addEventListener('resize', adjustContainerMaxHeight);
       window.addEventListener('resize', adjustCanvasSize);
-      setupPdfDownloadButton(href)
+      setupPdfDownloadButton(href);
 
       const downloadButton = document.getElementById('pdf_download');
-      // downloadButton.addEventListener('click', function(event) {
-          // Prevent the default action to ensure we set everything before downloading
-          // event.preventDefault();
-          //setupPdfDownloadButton(href);
-          // downloadButton.click();
-      // });
+      console.log('Setting up download button listener.');
+      downloadButton.addEventListener('click', function(event) {
+          event.preventDefault();
+          console.log('Download button clicked. Preparing to download PDF.');
+          //setupPdfDownloadButton(href); // This seems to be a redundant call given the context.
+          downloadButton.click();
+      });
     });
   } else {
+    console.log('Document already loaded for other cases. Executing setup.');
     hideElement('.pdf_block_iframe');
     initializePDFLoading(href);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
     const downloadButton = document.getElementById('pdf_download');
+    console.log('Setting up download button listener outside initial check.');
     downloadButton.addEventListener('click', function(event) {
-        // Prevent the default action
         event.preventDefault();
+        console.log('Download button clicked outside initial check. Preparing to download PDF.');
 
-        // Define the PDF URL and filename
-        const pdfUrl = href; // Replace with your actual PDF URL
+        const pdfUrl = href; // Use the actual PDF URL
         const fileName = pdfUrl.split('/').pop(); // Extracts the filename from the URL
 
-        // Set the href and download attributes dynamically
         downloadButton.href = pdfUrl;
         downloadButton.download = fileName;
 
-        // Manually trigger the download
         downloadButton.click();
     });
-});
-
+  });
 }
 </script>
