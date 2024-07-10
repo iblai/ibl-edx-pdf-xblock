@@ -1,7 +1,68 @@
-<div class="pdf_block">
-  <iframe id="unit-iframe" title="pdf" src="{self.href}" width="100%" height="603" frameBorder="0" allow="microphone *; camera *; midi *; geolocation *; encrypted-media *" allowfullscreen="" scrolling="no" referrerpolicy="origin">
+<div class="pdf_block_iframe">
+  <iframe id="unit-iframe" title="pdf" src="{href}" width="100%" height="603" frameBorder="0" allow="microphone *; camera *; midi *; geolocation *; encrypted-media *" allowfullscreen="" scrolling="no" referrerpolicy="origin">
     <p>It appears you don't have a PDF plugin for this browser.
-      You can <a href="{self.href}">click here to
+      You can <a href="{href}">click here to
       download the PDF file.</a></p>
   </iframe>
 </div>
+
+<div class="pdf_block">
+  <div id="pdf-loader">Loading document...</div>
+  <div id="pdf-container"></div>
+</div>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
+
+<script>
+
+function hideElement(selector) {
+  var element = document.querySelector(selector);
+  if (element) {
+    element.style.display = 'none';
+  }
+}
+
+function initializePDFLoading(href) {
+  if (!href) {
+    console.error("Error: href is undefined or null. Check the path to your PDF.");
+  } else {
+    loadPDF(href);
+  }
+}
+
+
+if (window.location.hostname.startsWith('studio.')) {
+  // Hide pdf_block immediately if DOM is ready, or wait for it.
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block');
+    });
+  } else {
+    hideElement('.pdf_block');
+  }
+} else if ((navigator.userAgent.toLowerCase().includes('firefox') || navigator.userAgent.toLowerCase().includes('mozilla')) && !(navigator.userAgent.toLowerCase().includes('chrome') || navigator.userAgent.toLowerCase().includes('edge'))) {
+  // Hide pdf_block for Firefox/Mozilla browsers.
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block');
+    });
+  } else {
+    hideElement('.pdf_block');
+  }
+} else {
+  var href = "{href}"; // Ensure this is the correct path to your PDF
+
+  if (document.readyState === "loading") {
+    document.addEventListener('DOMContentLoaded', function() {
+      hideElement('.pdf_block_iframe');
+      initializePDFLoading(href);
+      adjustCanvasSize();
+      window.addEventListener('resize', adjustContainerMaxHeight);
+      window.addEventListener('resize', adjustCanvasSize);
+    });
+  } else {
+    hideElement('.pdf_block_iframe');
+    initializePDFLoading(href);
+  }
+}
+</script>

@@ -1,10 +1,10 @@
 """TO-DO: Write a description of what this XBlock is."""
 
 import pkg_resources
-
+from web_fragments.fragment import Fragment
 from xblock.core import XBlock
-from xblock.fields import Scope, Integer, String
-from xblock.fragment import Fragment
+from xblock.fields import Scope, String
+
 
 class pdfXBlock(XBlock):
     """
@@ -26,7 +26,9 @@ class pdfXBlock(XBlock):
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
-        return data.decode("utf8")
+        if isinstance(data, bytes):
+            return data.decode("utf8")
+        return data
 
 
     def student_view(self, context=None):
@@ -35,8 +37,10 @@ class pdfXBlock(XBlock):
         when viewing courses.
         """
         html = self.resource_string("static/html/pdf.html")
-        frag = Fragment(html.format(self=self))
+        html = html.replace("{href}", self.href)
+        frag = Fragment(html)
         frag.add_css(self.resource_string("static/css/pdf.css"))
+        frag.add_javascript(self.resource_string("static/js/src/pdf_view.js"))
         return frag
 
 

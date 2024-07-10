@@ -14,19 +14,22 @@ function pdfXBlock(runtime, element) {
     $(element).find('.save-button').bind('click', function() {
         var data = {
             'display_name': $(edit_display_name).context.value,
-            'href':$(edit_href).context.value
+            'href': $(edit_href).context.value
         };
-
         $('.xblock-editor-error-message', element).html();
         $('.xblock-editor-error-message', element).css('display', 'none');
         var handlerUrl = runtime.handlerUrl(element, 'save_pdf');
         $.post(handlerUrl, JSON.stringify(data)).done(function(response) {
+
             if (response.result === 'success') {
                 window.location.reload(false);
             } else {
                 $('.xblock-editor-error-message', element).html('Error: '+response.message);
                 $('.xblock-editor-error-message', element).css('display', 'block');
             }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            // Log any error during the AJAX request
+            console.error("AJAX request failed:", textStatus, errorThrown);
         });
     });
 
