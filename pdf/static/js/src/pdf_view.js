@@ -68,6 +68,14 @@ function loadPDF(href) {
             // Append the link (with the canvas inside) to the container
             container.appendChild(link);
 
+            // Create a text node or paragraph for the hyperlink and page count
+            var pageInfo = document.createElement('p');
+            pageInfo.style.textAlign = "center"; // Center align the text
+            pageInfo.innerHTML = `1 of ${pdfDoc.numPages} total pages. <a href="${href}" target="_blank" title="Open PDF viewer">Open PDF Viewer</a>`;
+
+            // Append the pageInfo under the link
+            container.appendChild(pageInfo);
+
             // Render PDF page into canvas context
             var renderContext = {
                 canvasContext: ctx,
