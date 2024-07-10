@@ -11,11 +11,11 @@
   <div id="pdf-container"></div>
   <!-- PDF Download Button -->
 
-  <ul>
+  <!-- <ul>
     <li class="pdf-download-button">
       <a id="pdf_download" href="" download="" class="pdf-download-button">Download PDF File</a>
     </li>
-  </ul>
+  </ul> -->
 </div>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js"></script>
@@ -78,38 +78,11 @@ if (window.location.hostname.startsWith('studio.')) {
       adjustCanvasSize();
       window.addEventListener('resize', adjustContainerMaxHeight);
       window.addEventListener('resize', adjustCanvasSize);
-      setupPdfDownloadButton(href);
-
-      const downloadButton = document.getElementById('pdf_download');
-      console.log('Setting up download button listener.');
-      downloadButton.addEventListener('click', function(event) {
-          event.preventDefault();
-          console.log('Download button clicked. Preparing to download PDF.');
-          //setupPdfDownloadButton(href); // This seems to be a redundant call given the context.
-          downloadButton.click();
-      });
     });
   } else {
     console.log('Document already loaded for other cases. Executing setup.');
     hideElement('.pdf_block_iframe');
     initializePDFLoading(href);
   }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const downloadButton = document.getElementById('pdf_download');
-    console.log('Setting up download button listener outside initial check.');
-    downloadButton.addEventListener('click', function(event) {
-        event.preventDefault();
-        console.log('Download button clicked outside initial check. Preparing to download PDF.');
-
-        const pdfUrl = href; // Use the actual PDF URL
-        const fileName = pdfUrl.split('/').pop(); // Extracts the filename from the URL
-
-        downloadButton.href = pdfUrl;
-        downloadButton.download = fileName;
-
-        downloadButton.click();
-    });
-  });
 }
 </script>
